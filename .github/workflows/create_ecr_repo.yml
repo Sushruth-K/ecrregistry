@@ -1,13 +1,18 @@
-name: ecr repocreate
-on: 
+on:
     push:
       branches: [ ecrautorepo ]
     workflow_dispatch:
+      inputs:
+        NEW_ECR_REPO:
+          description: The repository name
+          required: true
+          default: newecrrepo1
+          type: string
 env:
     ECR_REGISTRY: http://244740641779.dkr.ecr.us-east-1.amazonaws.com
- #Enter jira ticket name below
-    NEW_ECR_REPO: featurejira27_6_2022
-#AUTO CREATE ECR REPO IF NOT EXIST
+    ECR_REPOSITORY: testingdockerimage
+    NEW_ECR_REPO: ${{ inputs.NEW_ECR_REPO }}
+name: AUTO CREATE ECR REPO IF NOT EXISTS
 jobs:
     build:
       name: Build
@@ -38,5 +43,4 @@ jobs:
         uses: int128/create-ecr-repository-action@v1
         with:
           repository: ${{ steps.step1.outputs.NEW_ECR_REPO }}
-          #make it true if you need your repo to be public
-          public: false
+          public: true
