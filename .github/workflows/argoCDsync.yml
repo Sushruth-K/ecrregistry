@@ -52,26 +52,6 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
-
-    - name: Setup Kustomize
-      uses: imranismail/setup-kustomize@v1
-      with:
-        kustomize-version: "3.8.8"
-
-    - name: Update Kubernetes resources
-      run: |
-        cd ~/k8s-eks-manifest
-        git pull
-        git config --global user.email ${GITHUB_EMAIL}
-        git config --global user.name ${GITHUB_USERNAME}
-        git checkout main
-        echo "Update newimage with kustomize"
-        SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`
-        cd kustomize/demoapp1
-        kustomize edit set image $ECR_REGISTRY/$ECR_REPOSITORY:prod-$SHORT_SHA
-        cat kustomization.yaml
-        git commit -am "[${{ github.repository }}] $GITHUB_ACTOR - ${{ github.event.head_commit.message }}"
-        git push -u origin main 
         
     - name: Sync ArgoCD App
       run: |
