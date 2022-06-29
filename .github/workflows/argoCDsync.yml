@@ -52,6 +52,14 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+      
+    - name: "Sync ArgoCD Application"
+      uses: omegion/argocd-app-actions@master
+      with:
+          address: "a867a311ffe544ac885bb44c65c553b2-70831757.us-east-1.elb.amazonaws.com"
+          token: ${{ secrets.ARGOCD_TOKEN }}
+          appName: "demoapp1"
+          insecure: true
         
     - name: Sync ArgoCD App
       run: |
