@@ -50,15 +50,17 @@ jobs:
     needs: build
 
     steps:
-    - name: Check out code
+    - name: Check out code   
       uses: actions/checkout@v2
       
-    - name: "Sync ArgoCD Application"
-      uses: omegion/argocd-app-actions@master
+    - name: Sync ArgoCD Application
+      uses: butterfly1924/argocd-actions@master
       with:
           address: "a867a311ffe544ac885bb44c65c553b2-70831757.us-east-1.elb.amazonaws.com"
           token: ${{ secrets.ARGOCD_TOKEN }}
-          insecure: true
+          insecure: "true"
+          appName: "stageprodapp2"
+          imageTag: "stage"
         
     - name: Sync ArgoCD App
       run: |
